@@ -4,10 +4,12 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 from .forms import Cityform
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
+#Choose the city to search for tours
+@api_view(['POST'])
 def get_city(request):
-    # if this is a POST request we need to process the form data
-    if request.method == "POST":
         # create a form instance and populate it with data from the request:
         form = Cityform(request.POST)
         # check whether it's valid:
@@ -23,6 +25,8 @@ def get_city(request):
 
     return render(request, "search_city_form.html", {"form": form})
 
+#
+@api_view(['GET'])
 def api_home(request):
     body = request.body
     data = {}
