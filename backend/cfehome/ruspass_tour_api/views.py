@@ -1,28 +1,19 @@
-import json
-
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import render
-from .forms import Cityform
+from .serializers import CitySerializer
+from .models import Cities, Tours
+from .serializers import CitySerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 #Choose the city to search for tours
-@api_view(['POST'])
-def get_city(request):
-        # create a form instance and populate it with data from the request:
-        form = Cityform(request.POST)
+@api_view(['GET'])
+def getCity(request,pk):
+        city = Cities.objects.get(id=pk)
+        serializer = CitySerializer(city)
         # check whether it's valid:
-        if form.is_valid():
+        if serializer.is_valid():
             # process the data in form.cleaned_data as required
             # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect("/choose_tours/")
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = Cityform()
-
+            # redirect to a new URL:  return HttpResponseRedirect("/choose_tours/")
     return render(request, "search_city_form.html", {"form": form})
 
 #
