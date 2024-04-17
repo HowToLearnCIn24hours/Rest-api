@@ -6,7 +6,7 @@ class Cities(models.Model):
 
 
 class Hotels(models.Model):
-    hotel_star = models.IntegerField(default=0)
+    hotel_star = models.TextChoices("HotelStars", "1 2 3 4 5")
 
 
 class TourLength(models.Model):
@@ -14,16 +14,18 @@ class TourLength(models.Model):
 
 
 class TourTypes(models.Model):
-    tour_type = models.CharField(max_length=200)  # фото / винный / активный / спокойный / романтический / семейный
+    tour_type = models.TextChoices("TourType", "фото винный активный спокойный романтический семейный")
 
 
 class FeedRegimen(models.Model):
-    tour_eating = models.CharField(max_length=200)
+    tour_eating = models.TextChoices("TourEating", "завтрак завтрак и ужин все включено")
 
 
 class Tours(models.Model):
     tour_city = models.ForeignKey(Cities, on_delete=models.CASCADE)
     tour_name = models.CharField(max_length=1000)
+    tour_date_start = models.DateField()
+    tour_date_end = models.DateField()
     tour_type = models.ForeignKey(TourTypes, on_delete=models.CASCADE)
     tour_length = models.ForeignKey(TourLength, on_delete=models.CASCADE)
     tour_eating = models.ForeignKey(FeedRegimen, on_delete=models.CASCADE)
