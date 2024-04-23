@@ -18,7 +18,7 @@ class TourTypes(models.Model):
 
 
 class FeedRegimen(models.Model):
-    tour_eating = models.TextChoices("TourEating", "завтрак завтрак и ужин все включено")
+    tour_eating = models.TextChoices("TourEating", "завтрак, завтрак_и_ужин, все включено")
 
 
 class Tours(models.Model):

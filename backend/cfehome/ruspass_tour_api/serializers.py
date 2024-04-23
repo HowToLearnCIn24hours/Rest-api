@@ -3,7 +3,7 @@ from .models import Cities, Tours, TourLength
 import datetime
 
 
-class CitySerializer(serializers.Serializer):
+class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Cities
         fields = ['tour_city']
@@ -17,10 +17,18 @@ class DateEnd(serializers.Serializer):
     day_end = serializers.DateField(initial=datetime.date.today)
 
 
-class LengthSerializer(serializers.Serializer):
+class LengthSerializer(serializers.ModelSerializer):
     class Meta:
         model = TourLength
         fields = ['length']
+
+    def correct_length(self, value):
+        """
+        Check that length is a positive number.
+        """
+        if value['length'] <= '0':
+            raise serializers.ValidationError("Введите продолжительность больше 0 дней")
+        return value
 
 
 class TourSerializer(serializers.ModelSerializer):
